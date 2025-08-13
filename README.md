@@ -1,6 +1,8 @@
-# go-gateway
+# PortiGo
+<img width="1000" height="1000" alt="image" src="https://github.com/user-attachments/assets/77a7c044-5603-4c85-a292-836a88bbd242" />
 
-LLM gateway that routes OpenAI-compatible requests to provider endpoints based on the request body model id.
+
+LLM gateway written in Go that routes OpenAI-compatible requests to provider endpoints based on the request body model id.
 
 ## Quick start (Docker Compose)
 
