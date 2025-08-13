@@ -34,7 +34,7 @@ func main() {
     }
 
     modelSvc := models.NewService(modelRepo)
-    proxySvc := proxy.NewService()
+    proxySvc := proxy.NewService(modelRepo)
 
     handler := httpx.Handler{Models: modelSvc, Proxy: proxySvc}
     router := httpx.NewRouter(handler)

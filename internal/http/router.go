@@ -24,7 +24,8 @@ func NewRouter(handler Handler) *chi.Mux {
 		})
 
 		// Unified proxy endpoint compatible with OpenAI-style paths
-		r.Post("/chat/completions", handler.ProxyChatCompletions)
+									r.Post("/chat/completions", handler.ProxyChatCompletions)
+									r.Post("/completions", handler.ProxyChatCompletions)
 	})
 
 	return r

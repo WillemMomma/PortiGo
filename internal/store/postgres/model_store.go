@@ -50,9 +50,9 @@ func (r *ModelRepository) List(ctx context.Context) ([]model.Model, error) {
 }
 
 func (r *ModelRepository) Create(ctx context.Context, in model.CreateModelInput) (model.Model, error) {
-	if in.ID == "" || in.Name == "" || in.Endpoint == "" || in.APIKey == "" {
-		return model.Model{}, errors.New("id, name, endpoint, api_key are required")
-	}
+    if in.ID == "" || in.Name == "" || in.Endpoint == "" {
+        return model.Model{}, errors.New("id, name, endpoint are required")
+    }
 	_, err := r.db.ExecContext(ctx, `
 		INSERT INTO models (id, name, description, endpoint, api_key)
 		VALUES ($1, $2, $3, $4, $5)
@@ -66,6 +66,17 @@ func (r *ModelRepository) Create(ctx context.Context, in model.CreateModelInput)
 		return model.Model{}, err
 	}
 	return model.Model{ID: in.ID, Name: in.Name, Description: in.Description, Endpoint: in.Endpoint}, nil
+}
+
+// GetByID fetches a model by id including its stored api_key.
+func (r *ModelRepository) GetByID(ctx context.Context, id string) (model.Model, string, error) {
+    var m model.Model
+    var apiKey string
+    row := r.db.QueryRowContext(ctx, `SELECT id, name, description, endpoint, api_key FROM models WHERE id = $1`, id)
+    if err := row.Scan(&m.ID, &m.Name, &m.Description, &m.Endpoint, &apiKey); err != nil {
+        return model.Model{}, "", err
+    }
+    return m, apiKey, nil
 }
 
 

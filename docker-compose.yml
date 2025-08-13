@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: go_gateway_postgres
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: go_gateway
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d go_gateway"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  gateway:
+    build: .
+    container_name: go_gateway_api
+    environment:
+      PORT: "8080"
+      DATABASE_URL: "postgres://app:app@postgres:5432/go_gateway?sslmode=disable"
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+
+
