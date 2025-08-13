@@ -1,5 +1,5 @@
 # PortiGo
-<img width="1000" height="1000" alt="image" src="https://github.com/user-attachments/assets/77a7c044-5603-4c85-a292-836a88bbd242" />
+<img width="250" height="250" alt="image" src="https://github.com/user-attachments/assets/77a7c044-5603-4c85-a292-836a88bbd242" />
 
 
 LLM gateway written in Go that routes OpenAI-compatible requests to provider endpoints based on the request body model id.
